@@ -2,7 +2,7 @@ const { Dog } = require("../../db");
 const axios = require("axios");
 const captureDogs = require("../../controllers/captureDogs.js");
 
-const todos = async (req, res) => {
+exports.todos = async (req, res) => {
   const { name, limit } = req.query;
 
   const perros = await axios.get("https://api.thedogapi.com/v1/breeds");
@@ -26,5 +26,3 @@ const todos = async (req, res) => {
     res.status(400).end({ err: err.message });
   }
 };
-
-module.exports = todos;
