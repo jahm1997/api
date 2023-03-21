@@ -6,11 +6,10 @@ const getDogById = require("../services/getDogId");
 const router = Router();
 
 //aqui van los CRUD del enlace registro
+router.get("/", getAllDogs.todos);
 
-router.get("/", getAllDogs);
+router.get("/:id", getDogById.getDogById);
 
-router.get("/:id", getDogById);
-
-router.post("/add", postDog);
+router.post("/add", postDog.sumar);
 
 module.exports = router;
