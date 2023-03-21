@@ -1,5 +1,5 @@
 const axios = require("axios");
-const addDog = require("../../controllers/añadirDogs");
+const addDog = require("../controllers/añadirDogs");
 
 exports.sumar = async (req, res) => {
   const body = req.body;

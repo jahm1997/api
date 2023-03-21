@@ -1,6 +1,6 @@
-const { Dog } = require("../../db");
+const { Dog } = require("../db");
 const axios = require("axios");
-const captureDogs = require("../../controllers/captureDogs.js");
+const captureDogs = require("../controllers/captureDogs.js");
 
 exports.todos = async (req, res) => {
   const { name, limit } = req.query;
