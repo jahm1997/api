@@ -12,11 +12,13 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_DEPLOY } = process.env;
 //     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 //   }
 // );
+
 const sequelize = new Sequelize("dogs_su0k", DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   dialect: "postgres",
   logging: false,
 });
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];

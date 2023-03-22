@@ -1,7 +1,6 @@
 const { Dog } = require("../db");
 const axios = require("axios");
 const captureDogs = require("../controllers/captureDogs.js");
-const inicio = require("../controllers/inicio.js");
 
 exports.todos = async (req, res) => {
   const { name, limit } = req.query;
@@ -9,20 +8,18 @@ exports.todos = async (req, res) => {
   const perros = await axios.get("https://api.thedogapi.com/v1/breeds");
   const dataApi = perros.data;
 
-  inicio(dataApi);
-
   const dogs = await Dog.findAll();
-  const dogsDB = dogs.map((perro) => perro.dataValues);
+  const dogsdos = dogs.map((perro) => perro.dataValues);
 
   try {
     if (limit) {
-      const dataBase = captureDogs(dogsDB);
+      const dataBase = captureDogs(dogsdos, dataApi);
       return res.status(200).send(dataBase.slice(0, Number(limit)));
     } else if (name) {
-      const database = captureDogs(dogsDB, name);
+      const database = captureDogs(dogsdos, dataApi, name);
       return res.status(200).send(database);
     } else {
-      const dataBase = captureDogs(dogsDB);
+      const dataBase = captureDogs(dogsdos, dataApi);
       return res.status(200).send(dataBase);
     }
   } catch (err) {
