@@ -7,10 +7,9 @@ const captureTemps = require("../controllers/captureTemps");
 exports.getTemperaments = async (req, res) => {
   const dbTemperaments = await Temperaments.findAll();
   const response = await axios.get("https://api.thedogapi.com/v1/breeds");
-  const data = response.data;
+  const dataApi = response.data;
   try {
-    const baseTemps = captureTemps(dbTemperaments, data);
-    console.log(baseTemps);
+    const baseTemps = captureTemps(dbTemperaments, dataApi);
     res.status(200).send(baseTemps);
   } catch (error) {
     res.status(400).end({ error: error.message });
