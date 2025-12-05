@@ -1,29 +1,30 @@
 const { Dog } = require("../db");
-const axios = require("axios");
-const captureDogs = require("../controllers/captureDogs.js");
+const { Op } = require("sequelize");
 
 exports.todos = async (req, res) => {
   const { name, limit } = req.query;
 
-  const perros = await axios.get("https://api.thedogapi.com/v1/breeds");
-  const dataApi = perros.data;
-
-  const dogs = await Dog.findAll();
-  const dogsdos = dogs.map((perro) => perro.dataValues);
-
   try {
-    if (limit) {
-      const dataBase = captureDogs(dogsdos, dataApi);
-      return res.status(200).send(dataBase.slice(0, Number(limit)));
-    } else if (name) {
-      const database = captureDogs(dogsdos, dataApi, name);
-      return res.status(200).send(database);
+    let dogs;
+    if (name) {
+      dogs = await Dog.findAll({
+        where: {
+          name: {
+            [Op.iLike]: `%${name}%`,
+          },
+        },
+      });
     } else {
-      const dataBase = captureDogs(dogsdos, dataApi);
-      return res.status(200).send(dataBase);
+      dogs = await Dog.findAll();
     }
+
+    if (limit) {
+      return res.status(200).send(dogs.slice(0, Number(limit)));
+    }
+    
+    return res.status(200).send(dogs);
   } catch (err) {
-    console.log(err, "Este es el error en la linea 26");
-    return res.status(400).end({ err: err.message });
+    console.log(err);
+    return res.status(400).json({ err: err.message });
   }
 };
